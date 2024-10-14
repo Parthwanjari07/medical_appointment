@@ -83,15 +83,3 @@ p {
 .table td {
     padding: 10px;
 }
-
-/* Form Container with Background Image */
-.form-background {
-    background-image: url('img/image copy.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0.1;
-    border-radius: 15px;
-    padding: 20px;
-    position: relative;
-    z-index: 1;
-}
