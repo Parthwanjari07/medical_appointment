@@ -120,22 +120,32 @@ document
   ?.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const name = localStorage.getItem("fullName");
-    const email = localStorage.getItem("email");
+    const name = document.getElementById("fullName").value;
+    const email = document.getElementById("email").value;
     const phone = document.getElementById("phone").value;
     const date = document.getElementById("date").value;
-    const treatment = document.getElementById("selectedTreatment").textContent;
+    const notes = document.getElementById("notes").value;
 
-    const confirmationMessage = `Appointment confirmed for ${name}! Treatment: ${treatment} Date: ${date} Email: ${email} Phone: ${phone}`;
-    const confirmationMessageElement = document.getElementById(
-      "confirmationMessage"
-    );
-    const confirmationElement = document.getElementById("confirmation");
+    const apiKey = 'MPPTQF6SH4UPLRI6'; // Replace with your Write API Key
 
-    if (confirmationMessageElement && confirmationElement) {
-      confirmationMessageElement.textContent = confirmationMessage;
-      confirmationElement.classList.remove("d-none");
-    }
+    // Construct the ThingSpeak URL
+    const url = `https://api.thingspeak.com/update?api_key=${apiKey}&field1=${encodeURIComponent(name)}&field2=${encodeURIComponent(email)}&field3=${encodeURIComponent(phone)}&field4=${encodeURIComponent(date)}&field5=${encodeURIComponent(notes)}`;
+
+    // Send data to ThingSpeak
+    fetch(url, { method: 'POST' })
+      .then(response => {
+        if (response.ok) {
+          displayAlert('Appointment data sent to ThingSpeak successfully!', 'success');
+        } else {
+          displayAlert('Failed to send data to ThingSpeak.', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        displayAlert('An error occurred while sending data.', 'error');
+      });
 
     document.getElementById("appointmentForm").reset();
   });
+
+// ... existing code ...
