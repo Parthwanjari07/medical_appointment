@@ -112,6 +112,15 @@ document.addEventListener("DOMContentLoaded", function () {
     appointmentNameElement.value = fullName || ""; // Pre-fill name
     appointmentEmailElement.value = email || ""; // Pre-fill email
   }
+
+  // Retrieve password from localStorage
+  const password = localStorage.getItem("password");
+
+  // Populate password field on the profile page
+  const profilePasswordElement = document.getElementById("profilePassword");
+  if (password && profilePasswordElement) {
+    profilePasswordElement.value = password;
+  }
 });
 
 // Appointment form submission
@@ -147,5 +156,3 @@ document
 
     document.getElementById("appointmentForm").reset();
   });
-
-// ... existing code ...

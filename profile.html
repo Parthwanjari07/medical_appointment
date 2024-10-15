@@ -20,7 +20,6 @@
                 <a href="main.html" class="btn btn-outline-primary me-2">Home</a>
                 <a href="contact-form.html" class="btn btn-outline-primary me-2">Contact</a>
                 <a href="support.html" class="btn btn-outline-primary me-2">Support</a>
-                <a href="profile.html" class="btn btn-outline-primary">Profile</a>
             </div>
         </div>
     </header>
@@ -29,20 +28,36 @@
             <h2 class="text-center mb-4">Your Profile</h2>
             <div class="mb-3">
                 <label for="profileName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="profileName" value="John Doe" readonly>
+                <input type="text" class="form-control" id="profileName" readonly>
             </div>
             <div class="mb-3">
                 <label for="profileEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="profileEmail" value="john.doe@example.com" readonly>
+                <input type="email" class="form-control" id="profileEmail" readonly>
             </div>
             <div class="mb-3">
                 <label for="profilePassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="profilePassword" value="********" readonly>
+                <input type="password" class="form-control" id="profilePassword" readonly>
             </div>
             <button class="btn btn-primary w-100">Edit Profile</button>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve the current user's email from localStorage
+            const email = localStorage.getItem("email");
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+
+            // Find the user data based on the stored email
+            const currentUser = users.find(user => user.email === email);
+
+            if (currentUser) {
+                document.getElementById('profileName').value = currentUser.fullName;
+                document.getElementById('profileEmail').value = currentUser.email;
+                document.getElementById('profilePassword').value = currentUser.password;
+            }
+        });
+    </script>
 </body>
 
 </html>
