@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>PAYMENT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: #010f1c;
+            font-family: "Lato", sans-serif;
+        }
+
+        .cont {
+            width: 400px;
+            height: calc(100vh - 100px);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        }
+
+        .head {
+            width: 100%;
+            height: 70px;
+            background: #236fed;
+            display: flex;
+            align-items: center;
+        }
+
+        .head img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-left: 15px;
+            margin-right: 10px;
+        }
+
+        .head h3 {
+            color: #fff;
+        }
+
+        .text_bold {
+            font-weight: bold;
+            padding-left: 15px;
+            padding-top: 15px;
+        }
+
+        .text {
+            color: #7a7a7a;
+            padding-top: 7px;
+            padding-left: 15px;
+        }
+
+        .qr {
+            width: 150px;
+            height: 150px;
+            margin-top: 20px;
+        }
+
+        .or {
+            padding-top: 10px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 150px;
+            margin: auto;
+        }
+
+        .line {
+            width: 50px;
+            height: 1px;
+            background: #7a7a7a;
+        }
+
+        .or p {
+            padding: 0;
+        }
+
+        .app_ a {
+            text-decoration: none;
+            display: flex;
+            width: 45%;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #e4e4e4;
+        }
+
+        .app_logo {
+            height: 30px;
+        }
+
+        .upi_apps {
+            margin-top: 20px;
+            padding: 0 15px;
+        }
+
+        .app_ {
+            justify-content: center;
+            display: flex;
+            margin-top: 5px;
+        }
+
+        .space {
+            min-width: 5px !important;
+        }
+
+        .app_ a p {
+            padding-left: 5px;
+            font-weight: bold;
+        }
+
+        .body {
+            height: calc(100vh - 240px);
+        }
+
+        .btm {
+            height: 70px;
+            box-shadow: rgba(149, 157, 165, 0.2) 6px -3px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+
+        .btm p {
+            padding: 0;
+        }
+
+        .btm button {
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            height: 40px;
+            padding: 0 40px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            background: #236fed;
+        }
+
+        .btm span {
+            color: #fff
+        }
+
+        @media only screen and (max-width: 500px) {
+
+            .cont {
+                position: fixed;
+                display: flex;
+                flex-direction: column;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                transform: unset;
+                left: 0;
+            }
+
+            .body {
+                flex: 1;
+            }
+        }
+
+        /* Notification Styles */
+        #successNotification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #22c55e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #successNotification span {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main Container -->
+    <div class="cont">
+        <div class="head">
+            <img src="img/payment.png">
+            <h3>PAYMENT</h3>
+        </div>
+        <div class="body">
+            <p class="text_bold">Pay with UPI QR</p>
+            <p class="text">Scan the QR Code with any UPI app.</p>
+            <center>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=wnihar14@okicici&pn=Mr%20NIHAR%20%20WALAWALKAR&cu=INR&am=1500&tn=Payment%20From%20Gateway"
+                    class="qr">
+            </center>
+            <div class="or">
+                <div class="line"></div>
+                <p class="text">OR</p>
+                <div class="line"></div>
+            </div>
+            <div class="upi_apps">
+                <div class="app_">
+                    <a href="gpay://upi/pay?pa=9064973840@okbizaxis&pn=Mr%20ONKAR%20%20JHA&cu=INR&am=1500">
+                        <img src="https://1000logos.net/wp-content/uploads/2020/04/Google-Pay-Logo.jpg"
+                            class="app_logo">
+                        <p>GPay</p>
+                    </a>
+                    <div class="space"></div>
+                    <a href="paytmmp://pay?pa=9064973840@okbizaxis&pn=Mr%20ONKAR%20%20JHA&cu=INR&am=1500">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvkvpH2vYwIUoijFNnQ3OWx6zbXrxY2jyATg&s"
+                            class="app_logo">
+                        <p>Paytm</p>
+                    </a>
+                </div>
+                <div class="app_">
+                    <a href="phonepe://pay?pa=9064973840@okbizaxis&pn=Mr%20ONKAR%20%20JHA&cu=INR&am=1500">
+                        <img src="https://i.pinimg.com/originals/dd/53/85/dd5385fb5b726cb74171930c4db4ca5b.png"
+                            class="app_logo">
+                        <p>PhonePe</p>
+                    </a>
+                    <div class="space"></div>
+                    <a href="upi://pay?pa=9064973840@okbizaxis&pn=Mr%20ONKAR%20%20JHA&cu=INR&am=1500">
+                        <img src="https://png.pngtree.com/png-vector/20190225/ourmid/pngtree-concept-banking-logo-png-image_712961.jpg"
+                            class="app_logo">
+                        <p>Other</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="btm">
+            <p class="text_bold">₹1500</p>
+            <button id="verifyBtn">Verifying&nbsp;&nbsp;<span id="timer">(30s)</span></button>
+        </div>
+    </div>
+
+    <!-- Success Notification -->
+    <div id="successNotification">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="white">
+            <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414 0L9 10.586 7.707 9.293a1 1 0 10-1.414 1.414l2 2a1 1 0 001.414 0l4-4a1 1 0 000-1.414z"
+                clip-rule="evenodd" />
+        </svg>
+        <span>Payment Successful</span>
+    </div>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            let time = 30; // Initial time in seconds
+            const timerElement = document.getElementById("timer");
+            const verifyButton = document.getElementById("verifyBtn");
+
+            function updateTimer() {
+                timerElement.textContent = `(${time}s)`;
+                if (time <= 0) {
+                    $(".btm button").text("Verify");
+                    clearInterval(countdownInterval);
+                    timerElement.textContent = "(0s)";
+                    verifyButton.disabled = false; // Enable the Verify button
+                } else {
+                    time--;
+                }
+            }
+
+            // Update the timer every second
+            const countdownInterval = setInterval(updateTimer, 1000);
+            updateTimer();
+
+            // Verify button click event
+            verifyButton.addEventListener("click", function () {
+                if (time <= 0) {
+                    showSuccessNotification();
+                }
+            });
+        });
+
+        // Show success notification
+        function showSuccessNotification() {
+            const successNotification = document.getElementById("successNotification");
+            successNotification.style.display = "flex";
+            setTimeout(function () {
+                successNotification.style.display = "none";
+            }, 3000); // Hide after 3 seconds
+        }
+    </script>
+
+</body>
+
+</html>
