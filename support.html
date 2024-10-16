@@ -29,16 +29,18 @@
             <h2 class="text-center mb-4">Support</h2>
             <h4>Common Issues:</h4>
             <ul>
-                <li>Issue 1: Description</li>
-                <li>Issue 2: Description</li>
-                <li>Issue 3: Description</li>
+                <li>Issue 1: Difficulty in finding available time slots with preferred doctors.</li>
+                <li>Issue 2: Payment failures or issues during checkout.</li>
+                <li>Issue 3: Confusing or non-intuitive user interface for booking.</li>
             </ul>
             <h4 class="mt-4">Report a New Issue:</h4>
-            <form>
+            <form action="https://formsubmit.co/wnihar14@gmail.com" method="POST">
                 <div class="mb-3">
                     <label for="issue" class="form-label">Describe your issue</label>
-                    <textarea class="form-control" id="issue" rows="3" placeholder="Your issue description" required></textarea>
+                    <textarea class="form-control" id="issue" name="issue" rows="3" placeholder="Your issue description" required></textarea>
                 </div>
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
                 <button type="submit" class="btn btn-primary w-100">Submit Issue</button>
             </form>
         </div>

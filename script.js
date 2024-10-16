@@ -15,34 +15,26 @@ function saveUsers() {
 }
 
 // Handle signup
-document
-  .getElementById("signupForm")
-  ?.addEventListener("submit", function (event) {
-    event.preventDefault();
+document.getElementById("signupForm")?.addEventListener("submit", function () {
+  const signupName = document.getElementById("signupFullName").value;
+  const signupEmail = document.getElementById("signupEmail").value;
+  const signupPassword = document.getElementById("signupPassword").value;
 
-    const signupName = document.getElementById("signupFullName").value;
-    const signupEmail = document.getElementById("signupEmail").value;
-    const signupPassword = document.getElementById("signupPassword").value;
+  const newUser = {
+    fullName: signupName,
+    email: signupEmail,
+    password: signupPassword,
+  };
 
-    const newUser = {
-      fullName: signupName,
-      email: signupEmail,
-      password: signupPassword,
-    };
+  const existingUser = users.find((user) => user.email === signupEmail);
+  if (existingUser) {
+    displayAlert("User already exists. Please log in.", "error");
+    return;
+  }
 
-    const existingUser = users.find((user) => user.email === signupEmail);
-    if (existingUser) {
-      displayAlert("User already exists. Please log in.", "error");
-      return;
-    }
-
-    users.push(newUser);
-    saveUsers();
-    displayAlert("Signup successful! Redirecting to login...", "success");
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 1500);
-  });
+  users.push(newUser);
+  saveUsers();
+});
 
 // Handle login
 document
@@ -105,8 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Pre-fill appointment form fields if on the appointment page
-  const appointmentNameElement = document.getElementById("appointmentName");
-  const appointmentEmailElement = document.getElementById("appointmentEmail");
+  const appointmentNameElement = document.getElementById("fullName");
+  const appointmentEmailElement = document.getElementById("email");
 
   if (appointmentNameElement && appointmentEmailElement) {
     appointmentNameElement.value = fullName || ""; // Pre-fill name
@@ -129,30 +121,102 @@ document
   ?.addEventListener("submit", function (event) {
     event.preventDefault();
 
+    // Get form data
     const name = document.getElementById("fullName").value;
     const email = document.getElementById("email").value;
     const phone = document.getElementById("phone").value;
     const date = document.getElementById("date").value;
     const notes = document.getElementById("notes").value;
+    const timeSlot = document.getElementById("timeSlot").value; // Get the selected time slot
 
-    const apiKey = 'MPPTQF6SH4UPLRI6'; // Replace with your Write API Key
+    // Define ThingSpeak API key
+    const apiKey = "MPPTQF6SH4UPLRI6"; // Replace with your Write API Key
 
     // Construct the ThingSpeak URL
-    const url = `https://api.thingspeak.com/update?api_key=${apiKey}&field1=${encodeURIComponent(name)}&field2=${encodeURIComponent(email)}&field3=${encodeURIComponent(phone)}&field4=${encodeURIComponent(date)}&field5=${encodeURIComponent(notes)}`;
+    const thingSpeakUrl = `https://api.thingspeak.com/update?api_key=${apiKey}&field1=${encodeURIComponent(
+      name
+    )}&field2=${encodeURIComponent(email)}&field3=${encodeURIComponent(
+      phone
+    )}&field4=${encodeURIComponent(date)}&field5=${encodeURIComponent(notes)}`;
 
     // Send data to ThingSpeak
-    fetch(url, { method: 'POST' })
-      .then(response => {
-        if (response.ok) {
-          displayAlert('Appointment data sent to ThingSpeak successfully!', 'success');
-        } else {
-          displayAlert('Failed to send data to ThingSpeak.', 'error');
+    fetch(thingSpeakUrl, { method: "POST" })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to send data to ThingSpeak");
         }
+        return response.text();
       })
-      .catch(error => {
-        console.error('Error:', error);
-        displayAlert('An error occurred while sending data.', 'error');
+      .then(() => {
+        // Display alert for successful ThingSpeak upload
+        displayAlert(
+          "Appointment data sent to ThingSpeak successfully!",
+          "success"
+        );
+
+        // After ThingSpeak upload is successful, store data in Google Spreadsheet
+        return saveToGoogleSheet(name, email, phone, date, notes);
+      })
+      .then(() => {
+        // Update the booked time slot in local storage
+        updateBookedSlot(date, timeSlot);
+
+        // After saving to Google Spreadsheet, proceed to payment.html
+        window.location.href = "payment.html";
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        displayAlert(
+          "An error occurred while processing the appointment.",
+          "error"
+        );
       });
 
+    // Reset form after submission
     document.getElementById("appointmentForm").reset();
   });
+
+// Function to send data to Google Apps Script
+function saveToGoogleSheet(name, email, phone, date, notes) {
+  return new Promise((resolve, reject) => {
+    // Google Apps Script Web App URL
+    const googleScriptUrl =
+      "https://script.google.com/macros/s/AKfycbyzou0lG2NdzJhTT2P1H4VJDqdMkM_64QjkiqGmDnrsCAxdCQ0jqPzflV7ftJMx4zYjwA/exec";
+
+    // Construct the form data
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("date", date);
+    formData.append("notes", notes);
+
+    // Send data to Google Apps Script
+    fetch(googleScriptUrl, { method: "POST", body: formData })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to store data in Google Spreadsheet");
+        }
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Function to update booked time slots in local storage
+function updateBookedSlot(date, timeSlot) {
+  const bookedSlots = JSON.parse(localStorage.getItem("bookedSlots")) || {};
+
+  // Check if the date exists in localStorage, if not, initialize an empty array
+  if (!bookedSlots[date]) {
+    bookedSlots[date] = [];
+  }
+
+  // Add the selected time slot to the booked slots for the chosen date
+  bookedSlots[date].push(timeSlot);
+
+  // Save the updated booked slots back to local storage
+  localStorage.setItem("bookedSlots", JSON.stringify(bookedSlots));
+}

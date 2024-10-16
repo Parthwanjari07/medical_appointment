@@ -30,28 +30,44 @@
             <div class="col-md-6">
                 <div class="card shadow-lg p-4 border form-background">
                     <h2 class="text-center mb-4">Book Your Appointment</h2>
-                    <form id="appointmentForm">
+                    <form id="appointmentForm" method="POST">
                         <div class="mb-3">
                             <label for="fullName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+                            <input type="text" class="form-control" name="name" id="fullName"
+                                placeholder="Enter your full name" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                            <input type="email" class="form-control" name="email" id="email"
+                                placeholder="Enter your email" required>
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+                            <input type="tel" class="form-control" name="phone" id="phone"
+                                placeholder="Enter your phone number" required>
                         </div>
                         <div class="mb-3">
                             <label for="date" class="form-label">Preferred Date</label>
-                            <input type="date" class="form-control" id="date" required>
+                            <input type="date" name="date" class="form-control" id="date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="timeSlot" class="form-label">Select Time Slot</label>
+                            <select name="timeSlot" id="timeSlot" class="form-control" required>
+                                <option value="9:00 AM - 10:00 AM">9:00 AM - 10:00 AM</option>
+                                <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+                                <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
+                                <option value="1:00 PM - 2:00 PM">1:00 PM - 2:00 PM</option>
+                                <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
+                                <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
+                                <option value="4:00 PM - 5:00 PM">4:00 PM - 5:00 PM</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="notes" class="form-label">Additional Notes</label>
-                            <textarea class="form-control" id="notes" rows="3" placeholder="Any additional information"></textarea>
+                            <textarea class="form-control" id="notes" name="notes" rows="3"
+                                placeholder="Any additional information"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Book Appointment</button>
+                        <input type="submit" value="Proceed to payment" class="btn btn-primary w-100">
                     </form>
                 </div>
             </div>
